@@ -26,6 +26,23 @@ def read_file(file):
     # clean values in Fatal
     shark_attacks_df['Fatal (Y/N)'] = shark_attacks_df['Fatal (Y/N)'].replace({' n':'n', 'n ':'n', 'm':np.nan, '2017':np.nan, 'unknown':np.nan})
 
+    # add location coordinates to DataFrame
+    print(shark_attacks_df['Location'])
+
     print(shark_attacks_df.columns)
 
     return shark_attacks_df
+
+def read_world_file(world_file):
+    # create DataFrame with csv data
+    world_df = pd.read_csv(world_file)
+
+    # change all data to lower cases
+    world_df =  world_df.applymap(lambda s:s.lower() if type(s) == str else s)
+    # replace empty values with 0
+    world_df = world_df.fillna(0)
+
+    print(world_df['admin_name'].head(20))
+
+
+read_world_file('worldcities.csv')
