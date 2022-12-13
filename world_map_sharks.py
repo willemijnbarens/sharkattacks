@@ -14,9 +14,7 @@ sharks_df = read_world_file('worldcities.csv')
 # delete cases without coordinates
 sharks_df = sharks_df.drop(sharks_df[sharks_df.lat == 0.0].index)
 
-# check if data is correct
-# sharks_df.to_csv('show_example.csv')
-
+# calculate on what coordinates to open the map
 middle = [sharks_df['lat'].mean(), sharks_df['lng'].mean()]
 m = folium.Map(location=middle, zoom_start=4)
 
@@ -32,6 +30,7 @@ for _, row in sharks_df.iterrows():
     popup = list(dict.fromkeys(popup))
     # create string from list
     text = ', '.join(str(v) for v in popup)
+    # convert string to html
     popContent = folium.Html(text, script=True)
 
     # set area variable based on available location information
@@ -49,6 +48,7 @@ for _, row in sharks_df.iterrows():
         # make the circles bigger according to the number of shark attacks per area
         radius= math.sqrt(number_of_shark_attacks + 10),
 
+        # set tooltips and popups with relevant information
         tooltip=f'<b>{area}</b><br><br>Number of fatal shark attacks: {fatalities}',
         popup = folium.Popup(popContent,
                          min_width=500,
