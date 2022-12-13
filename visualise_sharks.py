@@ -3,7 +3,7 @@ Program to visualise shark attack data using Bokeh
 """
 
 import pandas as pd
-from read_csv_file import read_file, read_world_file
+from read_csv_file import read_shark_file, read_world_file
 from bokeh.io import output_notebook, show, output_file
 from bokeh.plotting import figure, ColumnDataSource
 from bokeh.tile_providers import get_provider, Vendors
