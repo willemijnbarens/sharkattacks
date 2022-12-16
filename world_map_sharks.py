@@ -7,6 +7,7 @@ from read_csv_file import read_shark_file, read_world_file
 import folium
 import webbrowser
 import math
+from collections import Counter
 
 # read csv file with location coordinates
 sharks_df = read_world_file('worldcities.csv')
@@ -18,6 +19,7 @@ sharks_df = sharks_df.drop(sharks_df[sharks_df.lat == 0.0].index)
 middle = [sharks_df['lat'].mean(), sharks_df['lng'].mean()]
 m = folium.Map(location=middle, zoom_start=4)
 
+
 for _, row in sharks_df.iterrows():
     # add list of activities to the popups
     popup = sharks_df.loc[(sharks_df['lat'] == row['lat']) & (sharks_df['lng'] == row['lng']), 'Activity']
@@ -26,12 +28,27 @@ for _, row in sharks_df.iterrows():
     # set variable for amount of shark attacks in total per area
     number_of_shark_attacks = len(popup)
 
-    # remove duplicates
-    popup = list(dict.fromkeys(popup))
-    # create string from list
-    text = ', '.join(str(v) for v in popup)
-    # convert string to html
-    popContent = folium.Html(text, script=True)
+    # create list with the 6 most common activities
+    c = Counter(popup)
+    top5 = c.most_common(6)
+    # only keep first element of tuples and remove missing data
+    top5 = [x[0] for x in top5 if x[0] != 0]
+
+    # check if 5 activities were found
+    while len(top5) < 5:
+        top5.append('No data')
+
+    # create html with the top 5 activities
+    popContent = f"""
+        <h2>Most common activities</h2>
+        <ol>
+            <li>{top5[0]}</li>
+            <li>{top5[1]}</li>
+            <li>{top5[2]}</li>
+            <li>{top5[3]}</li>
+            <li>{top5[4]}</li>
+        </ol>
+        """
 
     # set area variable based on available location information
     if row['Area'] != 0:
@@ -58,6 +75,7 @@ for _, row in sharks_df.iterrows():
         fill=True,
         fill_color="#3186cc",
     ).add_to(m)
+
 
 #Display the map
 m.save("map.html")

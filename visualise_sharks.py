@@ -86,17 +86,5 @@ p1.legend.location = "top_left"
 # set theme
 curdoc().theme = "night_sky"
 
-# display figure
+# display figure and fit to screen
 show(row(children=[p1, p2], sizing_mode="scale_width"))
-
-
-# # add tooltips
-# # example: when hovering over this will show the activities people were doing in specific countries
-# hover = HoverTool()
-# hover.tooltips = """
-#     <div>
-#     <h3>@Country</h3>
-#     <div><strong>Activity: </strong>@Activity</div>
-#     </div>
-# """
-#

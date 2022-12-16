@@ -73,5 +73,3 @@ def read_world_file(world_file):
     new_df = new_df.fillna(0)
 
     return new_df
-
-read_world_file('worldcities.csv')
