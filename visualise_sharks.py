@@ -49,12 +49,9 @@ grouped['Fatalities_percentage'] = ((grouped['Fatal'] / grouped['Count']) * 100)
 # add years as column instead of index
 grouped = grouped.reset_index()
 
-
 # add fitted data to the DataFrame to show the linear regression
 grouped = fitting(grouped, 'Year', 'Count', 'Fitted_attacks')
 grouped = fitting(grouped, 'Year', 'Fatal', 'Fitted_fatalities')
-
-print(grouped)
 
 # create first figure
 p1 = figure(title="Shark Attacks per Year", x_axis_label='year', y_axis_label='occurences',
